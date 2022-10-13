@@ -27,3 +27,23 @@ funds_excess = copy(funds)
 for row in eachrow(funds_excess)
     row .= collect(row) .- Rf
 end
+
+
+
+funds_ρ = corspearman( mean.(eachrow(funds[:, allyears]))./std.(eachrow(funds[:, allyears])),
+annualized_return.(eachrow(funds[:, allyears]))
+)
+funds_plot = scatter(
+    mean.(eachrow(funds[:, allyears]))./std.(eachrow(funds[:, allyears])),
+    annualized_return.(eachrow(funds[:, allyears])),
+    title = "$(size(funds, 1)) US funds and ETFs (2000-2020)",
+    legend = :bottomright,
+    ylabel="Compounding Annualized Return", 
+    xlabel="Sharpe Ratio", 
+    alpha = .7,
+    xlims = (-1, 2),
+    ylims = (-.4, .4),
+    label = "Spearman ρ = $(round(funds_ρ; digits = 3))"
+)
+hline!([0], color = :black, label = false, linestyle = :dash)
+vline!([0], color = :black, label = false, linestyle = :dash)

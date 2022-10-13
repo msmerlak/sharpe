@@ -1,9 +1,10 @@
-ramp(x) = x > 0 ? x : 1e-10
-
+using Plots
+using Distributions
 
 normal = Normal(.01, .02)
 cauchy = Cauchy(.01, .02)
-plot()
+
+p1 = plot()
 for dist ∈ (normal, cauchy)
     a = Float64[]
     s = Float64[]
@@ -13,15 +14,11 @@ for dist ∈ (normal, cauchy)
         push!(a, compounding_return(r))
         push!(s, sharpe_ratio(r))
     end
-    scatter!(s, a, xlabel="Sharpe Ratio", ylabel="Annualized Return", legend=:bottomright, alpha = 0.5, label = "$(corspearman(s, a))")
+    scatter!(s, a, xlabel="Sharpe Ratio", ylabel="Annualized Return", legend=:bottomright, alpha = 0.5, label = "ρ = $(corspearman(s, a))")
 end
-current()
 
-plot(normal, xlims = (-.1, .1), label = "Normal returns")
+
+p2 = plot(normal, xlabel = "Returns",  xlims = (-.1, .1), label = "Normal returns")
 plot!(x -> pdf(cauchy, x), label = "Long-tailed returns")
 
-ρ = corspearman(a, s)
-
-scatter(s, a, xlabel="Sharpe Ratio", ylabel="Annualized Return", legend=false)
-hline!([0], color = :black, label = false)
-vline!([0], color = :black, label = false)
+plot(p2, p1)
