@@ -1,3 +1,8 @@
+using DrWatson; @quickactivate
+include(scriptsdir("retail.jl"))
+include(scriptsdir("funds.jl"))
+
+### Retail investors
 
 retail_ρ = corspearman(retail.sharpe, retail.compounding)
 retail_plot = @df retail scatter(
@@ -14,7 +19,7 @@ retail_plot = @df retail scatter(
 hline!([0], color = :black, label = false, linestyle = :dash)
 vline!([0], color = :black, label = false, linestyle = :dash)
 
-###
+### Funds
 
 funds_ρ = corspearman( mean.(eachrow(funds[:, allyears]))./std.(eachrow(funds[:, allyears])),
 annualized_return.(eachrow(funds[:, allyears]))
