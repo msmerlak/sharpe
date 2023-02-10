@@ -1,0 +1,91 @@
+\documentclass[
+reprint,
+amsmath,amssymb,
+aps,
+]{revtex4-2}
+\usepackage{graphicx}
+\usepackage{cleveref}
+
+\begin{document}
+
+\title{Great returns, bad Sharpe?\\ The non-monotonic relationship between performance and risk-adjusted returns}
+
+\author{Matteo Smerlak}
+\affiliation{Laboratoire Biophysique et Evolution, ESPCI, 10 rue Vauquelin, F-75005 Paris}
+
+\date{\today}
+
+\begin{abstract}
+    Distributions of returns are heavy-tailed across asset classes.
+    In this note, I examine the implications of this stylized fact for the statistics of the most common measure of investment quality, the Sharpe ratio. 
+    Counter-intuitively, I show that fluctuations of Sharpe ratio $S$ and mean excess returns $m$ are negatively correlated at large $m$, implying that portfolios with exceptional performance are associated with lower Sharpe ratios; conversely, portfolios with the best Sharpe ratios tend to show suboptimal performance. 
+    This ``great returns, bad Sharpe'' effect is a consequence of the asymptotic proportionality between the sample mean and the sample standard deviation of heavy-tailed variables. 
+ \end{abstract}
+
+\maketitle 
+
+\section{Introduction}
+
+Of two investments with identical performance, investors should prefer the one with lower volatility. 
+This common-sense observation underpins the widespread use of the Sharpe ratio (mean return)/(volatility) to evaluate the quality of a strategy, portfolio, or fund, in spite of several well-known limitations \footnote{
+    For instance: (1) Sharpe does not distinguish between upside and downside risk. 
+    (2) Short time series mean that the standard error on the Sharpe ratio is often comparable to its value.
+    (3) Large tail risks can easily be concealed behind the veil of low volatility (hence high Sharpe), e.g. using short out-of-the-money options.
+}. 
+The same logic underlies Markowitz's ``modern portfolio theory''; indeed, it is see to show that portfolios along the efficient frontier all have the same, maximal Sharpe ratio. 
+
+From a statistical perspective, the Sharpe ratio is just a coefficient of variation (the CV of excess returns over the riskfree rate), and its sampling distribution can be described with standard asymptotic theory \cite{loStatistics2002}. 
+However, precisely because investors focus on maximizing their Sharpe ratio, it interesting to ask not just about the center of its sampling distribution (subject to the central limit theorem), but also about its tails. What kind of events lead to large deviations of the Sharpe ratio? 
+
+A natural guess is that the Sharpe ratio is maximized by prices trajectories with $(i)$ exceptionally large returns or $(ii)$ positive returns and exceptionally low volatility. 
+Conversly, it seems intuitively clear that great returns must be associated with good Sharpe ratios. 
+The purpose of this note is to show that these expectations are false, due to the heavy-tailed nature of returns distributions. 
+In particular, I show that the strategies with the largest Sharpe ratios never maximize performance, and strategies with exceptional performance have lower Sharpe ratios. 
+We might call this phenomenon the ``great returns, bad Sharpe'' effect.  
+
+\section{Results}
+
+\subsection{Definitions}
+
+Let us begin with some definitions and assumptions. 
+We consider excess log returns (henceforth simply \emph{returns}) of an asset or strategy with price $p_{t}$ at period $t$ with respect to the riskfree rate $r_0$, denoted $\eta_{t} = \log(p_{t}/p_{t-1}) - \log r_0$. 
+We assume that returns are independent and identically distributed over time $t$. 
+The performance of the strategy over the time horizon $T$ is measured by the \emph{mean return} $m = \sum_{t=1}^T \eta_{t}/T$: after $T$ periods, $1$ dollar invested in this strategy will grow into $R = \exp(mT)$ times riskfree returns. 
+Similarly, the \emph{volatility} of the strategy over the same horizon is the standard deviation of returns, defined by $s^2 = \sum_{t=1}^T (x_{t} - m_i)^2/T$. 
+If returns are Gaussian, their sample mean $m$ and sample standard deviations $s$ are independent across realizations; this is not true for non-Gaussian variables \cite{gearyDistribution1936,springerJoint1953}, as we will see below. 
+
+Given its performance $m$ and volatility $s$, the \emph{Sharpe ratio} of a strategy is defined as $S = \sqrt{T} m/s$.  
+For daily (resp. monthly) returns and a time horizon of one year, we have $T = 252$ (resp. $T = 12$); the Sharpe ratio is approximately invariant with respect to $T$, and can be interpreted as a signal-to-noise ratio (signal $=mT$, noise $=s\sqrt{T}$). 
+In practice, a Sharpe ratio greater than $1$ is considered very good.
+
+\subsection{Synthetic data}
+
+Following empirical results summarized in Ref. \cite{bouchaudTheory2003}, we model returns with a Student distribution with tail index $\nu$: we assume $x \sim \mu + \sigma\sqrt{(\nu - 2)/\nu} \xi$, where $\xi$ follows a Student $t$ distribution with $\nu$ degrees of freedom. 
+(Defined in this way, a Student distribution with tail index $\nu$ has mean $\mu$ and standard deviation $\sigma$ for any value for $\nu > 2$.)
+Empirically, one observes $\nu \simeq 2-5$ depending on the time resolution and maturity of the underlying market. 
+An alternative choice for the returns distribution (leading to equivalent results) is the truncated Lévy distribution \cite{mantegnaStochastic1994}.
+
+\begin{figure*}
+    \includegraphics[width = \textwidth]{../plots/student.png}
+    \caption{
+        A: density functions of three Student distributions with the same mean $\mu = .1$ and standard deviation $\sigma = .2$; lower numbers of degrees of freedom $\nu$ correspond to heavier tails, with $\nu = \infty$ corresponding to the Gaussian limit. 
+        B: Correlations between sample mean $m$ and sample standard deviation $s$ when tails are heavier than Gaussian; these correlations are due to the fact that $m$ and $s$ are dominated by the same extreme events. 
+        C: Sharpe ratio $S$ versus performance (mean log-return $m$); at low $\nu$, the best performance is systematically associated with low Sharpe ratios. 
+        D: The ``great year, bad Sharpe'' effect is clearly seen when plotting the Sharpe ratios of strategies with performance $m$ greater than some threshold $r$ as a function of that threshold. After a point, the better the year, the lower the Sharpe.}
+\end{figure*}
+
+Applying the central limit theorem, it is easy to see that $S$ is approximately normally distributed when $T\to\infty$, with a standard error $\Delta S = \sqrt{(1+S^2)/T}$ \cite{loStatistics2002}. This is approximately true whether or not returns exhibit heavy tails, as illustrated in Fig. XXX when sampling $N = 10^4$ series of length $T = 252$ for $\nu = 3$ (Student distribution) and $\nu = \infty$ (normal distribution). (The Student case shows a slight upward bias.)
+
+Next we consider the relationship between sample mean $m$ and sample standard deviation $s$ across $10,000$ simulated strategies ($T = 12$) with $\mu = 10^{-4}$, $\sigma = 10^{-2}$ and varying tail index $\nu$. When $\nu$ is small (i.e. tails are heavy), we find that strategies with large $\vert m - \mu\vert$ are also associated with large $s$: it is not possible to achieve exceptional returns without also experiencing a large volatility. Also note the large dispersion of $m$ and, especially, $s$: such strong sampling noise is typical of heavy-tailed distributions. 
+
+Fig. 1C and 1D in turn illustrate the non-trivial relationship between Sharpe ratio $S$ and past performance $m$ which derives from their correlation. In contrast with the Gaussian case, where Sharpe $S$ and $m$ display a simple positive correlation (and conditioning on large $m$ leads to large expected $S$), heavy-tailed returns give rise to a tradeoff between Sharpe and performance. In particular, the strategies with the largest Sharpe ratio do not correspond to the best performance; conversely, the best performing strategies tend to display mediocre Sharpe ratios. This effect is particularly evident in Fig. 1D: the expected Sharpe ratio conditioned on $m>r$ for some performance threshold $r$ \emph{decreases} with $r$ at large $r$. 
+
+\subsection{EFTs data}
+
+\section{Conclusion}
+
+\bibliography{refs.bib}
+\end{document}
+
+% ****** End of file apssamp.tex ******
+

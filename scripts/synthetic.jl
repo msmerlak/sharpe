@@ -1,24 +1,29 @@
-using Plots
-using Distributions
+using DrWatson
+@quickactivate
 
-normal = Normal(.01, .02)
-cauchy = Cauchy(.01, .02)
+include(srcdir("utils.jl"))
 
-p1 = plot()
-for dist ∈ (normal, cauchy)
-    a = Float64[]
-    s = Float64[]
-    for _ in 1:1000
-        r = rand(dist, 10)
-        r = r[abs.(r) .< 1]
-        push!(a, compounding_return(r))
-        push!(s, sharpe_ratio(r))
+using Random, StatsBase, Distributions
+using DataFrames
+
+
+# Parameters
+μ = nanmean(ETF_returns.x)
+σ = nanstd(ETF_returns.x)
+T = 252
+S = sqrt(T) * μ / σ
+ΔS = sqrt(1 + S^2/2)
+N = 100_000
+Random.seed!(123)
+
+
+# Generate data
+synthetic = DataFrame(ν = Float64[], label=String[], m=Float64[], s=Float64[], S=Float64[])
+for ν in (3, Inf)
+    dist = isfinite(ν) ? TDist(μ, σ, ν) : Normal(μ, σ)
+    label = ν < Inf ? "Student(ν = $ν)" : "Normal"
+    for _ in 1:N
+        x = rand(dist, T)
+        push!(synthetic, [ν, label, mean(x), std(x), sqrt(T) * mean(x)/std(x)])
     end
-    scatter!(s, a, xlabel="Sharpe Ratio", ylabel="Annualized Return", legend=:bottomright, alpha = 0.5, label = "ρ = $(corspearman(s, a))")
 end
-
-
-p2 = plot(normal, xlabel = "Returns",  xlims = (-.1, .1), label = "Normal returns")
-plot!(x -> pdf(cauchy, x), label = "Long-tailed returns")
-
-plot(p2, p1)
