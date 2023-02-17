@@ -17,9 +17,9 @@ aps,
 \begin{abstract}
     Returns distributions are heavy-tailed across asset classes. 
     In this note, I examine the implications of this stylized fact for the joint statistics of performance and risk-adjusted return. 
-    Using both synthetic and real data, I show that the Sharpe ratio does not increase monotonically with mean return: in a sample of price trajectories, the largest Sharpe ratios are associated with suboptimal performance; conversely, the best performance corresponds to Sharpe ratios near one. 
+    Using both synthetic and real data, I show that the Sharpe ratio does not increase monotonically with performance: in a sample of price trajectories, the largest Sharpe ratios are associated with suboptimal mean returns; conversely, the best performance never corresponds to the largest Sharpe ratios. 
     This counter-intuitive effect is due to asymptotic correlations between the sample mean and sample standard deviation of heavy-tailed variables. 
-    Together with its large sample nois, this ``great year, bad Sharpe'' property puts into question the widespread use of Sharpe ratios as gold standard of investment quality. 
+    In addition to very large sample noise, this ``great year, bad Sharpe'' property puts into question the widespread use of the Sharpe ratio as the gold standard of investment quality. 
  \end{abstract}
 
 \maketitle 
@@ -88,12 +88,14 @@ We consider daily returns data of two kinds. First, we generate synthetic return
 \begin{equation}
     \eta \sim \mu + \sigma\sqrt{(\nu - 2)/\nu}\, \xi,
 \end{equation}
-where $\xi$ follows a Student $t$ distribution with $\nu$ degrees of freedom. (The associated probability density function reads has tail behavior $p(\eta; \nu)\sim_{\eta\to\pm\infty} 1/\vert\eta\vert^{\nu + 1)}$.) Empirically, the tail index of daily returns is found to be $\nu\simeq 3$ (see Ref. \cite{bouchaudTheory2003} and references therein); in the limit $\nu\to\infty$ a Gaussian distribution is recovered. 
+where $\xi$ follows a Student $t$ distribution with $\nu$ degrees of freedom. (The associated probability density function reads has tail behavior $p(\eta; \nu)\sim_{\eta\to\pm\infty} 1/\vert\eta\vert^{\nu + 1)}$.) 
+Empirically, the tail index of daily returns is found to be $\nu\simeq 3$ (see Ref. \cite{bouchaudTheory2003} and references therein); in the limit $\nu\to\infty$ a Gaussian distribution is recovered. 
 
-We also consider a public dataset of the adjusted close price of exchange traded funds (ETFs) spanning the period 1995-2019 and multiple categories (equities, commodities, short-term bonds, etc.) \cite{leoneUS}. To compute excess returns we use as riskfree rate $r_0$ the market yield on 1-year T-bills (the RIFLGFCY01NA ticker from FRED), plotted in Fig. \ref{riskfree-rate}. 
+We also consider a public dataset of the adjusted close price of exchange traded funds (ETFs) spanning the period 1995-2019 and multiple categories (equities, commodities, short-term bonds, etc.) \cite{leoneUS}. 
+To compute excess returns we use as riskfree rate $r_0$ the market yield on 1-year T-bills (the RIFLGFCY01NA ticker from FRED), plotted in Fig. \ref{riskfree-rate}. 
 
-
-The agregate distribution of daily returns of these ETFs is shown in Fig. \ref{returns-dist}, together with the density of a Student distribution with $\nu =3$ and a Gaussian distribution with the same mean $\mu$ and standard deviation $\sigma$. As expected, the Student distribution fits ETF returns well, while the Gaussian clearly does not. 
+The agregate distribution of daily returns of these ETFs is shown in Fig. \ref{returns-dist}, together with the density of a Student distribution with $\nu =3$ and a Gaussian distribution with the same mean $\mu$ and standard deviation $\sigma$. 
+As expected, the Student distribution fits ETF returns well, while the Gaussian clearly does not. 
 
 In the following, we fix $\mu = 1.45\cdot 10^{-4}$, $\sigma = 1.73\cdot 10^{-2}$, corresponding to the empirical mean and standard deviation of daily ETF returns. 
 
