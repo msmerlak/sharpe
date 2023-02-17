@@ -57,7 +57,7 @@ We suppose that a riskfree asset provides returns at rate $r_0$, and denote $\et
 We assume $\eta_t$ are independent and drawn from a common distribution $\mathcal{D}$ with mean $\mu$ and standard deviation $\sigma$. 
 
 \begin{figure}[t!]
-    \includegraphics[width = .45\textwidth]{../plots/sharpe-dist.png}
+    \includegraphics[width = .45\textwidth]{sharpe-dist.png}
     \caption{
         Distribution of 1-year Sharpe ratios within the ETF dataset and with synthetic data (Student or Gaussian, both with theoretical $\overline{S} = 0.13$), compared to asymptotic theory \cite{loStatistics2002}. 
         Note the very large standard error $\Delta S = 1.00 \gg \overline{S}$.
@@ -77,7 +77,7 @@ Strictly related measures of risk-adjusted return include the information ratio 
 
 
 \begin{figure}[t!]
-    \includegraphics[width = .45\textwidth]{../plots/riskfree-rate.png}
+    \includegraphics[width = .45\textwidth]{riskfree-rate.png}
     \caption{The riskfree rate used to compute the excess returns $\eta_t$ of over 1600 ETFs over the period 1995-2019.}
     \label{riskfree-rate}
 \end{figure}
@@ -100,20 +100,20 @@ As expected, the Student distribution fits ETF returns well, while the Gaussian 
 In the following, we fix $\mu = 1.45\cdot 10^{-4}$, $\sigma = 1.73\cdot 10^{-2}$, corresponding to the empirical mean and standard deviation of daily ETF returns. 
 
 \begin{figure}[t!]
-    \includegraphics[width = .45\textwidth]{../plots/returns-dist.png}
-    \caption{Distribution of daily excess returns $\eta_t$ for $1,608$ ETFs, together with Student and Gaussian densities with equal mean and standard deviation.}
+    \includegraphics[width = .45\textwidth]{returns-dist.png}
+    \caption{Distribution of daily excess returns $\eta_t$ for $1,608$ ETFs, together with Student and Gaussian densities with the same mean $\mu = 1.45\cdot 10^{-4}$ and standard deviation $\sigma = 1.73\cdot 10^{-2}$.}
     \label{returns-dist}
 \end{figure}
 
 \subsection{Distribution of Sharpe ratios}
 
-For each of our synthetic distributions (normal and Student with $\nu =3$), we generate $N = 10^5$ samples of $T = 252$ returns and compute their Sharpe ratios. 
+For each of our synthetic distributions (normal and Student with $\nu =3$), we generate $N = 10^5$ samples of $T = 252$ returns and compute their Sharpe ratios $S=\sqrt{252}m/s$. 
 The corresponding sampling distribution is plotted in Fig. \ref{returns-dist}, together with the 1-year Sharpe ratios of the $1,608$ ETFs in our sample. 
-We also plot a normal density with mean $\overline{S} = \sqrt{T}\mu/\sigma\simeq 0.13$ and deviation $\Delta S = (1+\overline{S}^2/2)^{1/2}\simeq 1.00$, representing the asymptotic density derived by Lo \cite{loStatistics2002}. 
+We also plot for comparison a normal density with mean $\overline{S} = \sqrt{T}\mu/\sigma\simeq 0.13$ and deviation $\Delta S = (1+\overline{S}^2/2)^{1/2}\simeq 1.00$, representing the asymptotic density derived by Lo \cite{loStatistics2002}. 
 
 
 \begin{figure*}
-    \includegraphics[width = \textwidth]{../plots/main-plot.png}
+    \includegraphics[width = \textwidth]{main-plot.png}
     \caption{First row: association between mean return $m$ and volatility $s$ when daily returns are drawn from a normal distribution (A), drawn from a Student distribution (B), or computed with real ETF data (C). The color shading indicates the density of points. Second row: the association be the mean return $m$ and Sharpe ratio $S$ is linear in the normal case (A), but non-trivial with heavy-tailed return distributions (B and C). Third row: the non-monotonic nature of the association between performance and Sharpe is revealed by considered the conditional Sharpe ratio $\overline{S}(m)$, defined as the mean Sharpe ratio for funds with mean return at least $m$.}
     \label{main-plot}
 \end{figure*}
