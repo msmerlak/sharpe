@@ -1,5 +1,5 @@
 # Great year, bad Sharpe?
-## A note on the joint distribution of performance and risk-adjusted return
+**A note on the joint distribution of performance and risk-adjusted return**
 
 Returns distributions are heavy-tailed across asset classes. 
 In this note, I examine the implications of this stylized fact for the joint statistics of performance and risk-adjusted return. 
