@@ -1,3 +1,14 @@
-papers/*.pdf
 data/
-plots/
+#plots/
+
+*.aux 
+*.bib
+*.pdf
+*.blg
+*.fdb_latexmk
+*.log
+*.bib
+*.synctex.gz
+*.fls
+
+

@@ -11,6 +11,8 @@ end
 nanmax(vector) = length(vector) > 0 ? maximum(vector) : NaN
 nanmean(x) = mean(filter(!isnan,x))
 nanstd(x) = std(filter!(!isnan, x))
+downside_std(x) = std(x[x .< 0]) 
+
 
 using Statistics, Distributions
 import Distributions:TDist

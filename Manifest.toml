@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "deb43c4bdad3d05ea058e37c5eb6de2d95ab3d17"
+project_hash = "d52f5f416739b63da99a2e38bf2b0957c0daacac"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -679,6 +679,12 @@ version = "0.4.13"
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
+
+[[deps.NumericIO]]
+deps = ["Printf"]
+git-tree-sha1 = "5e2bd9bee8b55b754ca61386df207abbfc266ef6"
+uuid = "6c575b1c-77cb-5640-a5dc-a54116c90507"
+version = "0.3.2"
 
 [[deps.Observables]]
 git-tree-sha1 = "6862738f9796b3edc1c09d0890afce4eca9e7e93"

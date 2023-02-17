@@ -38,37 +38,7 @@ ETF = @chain ETF_returns begin
     @by([:fund_category, :fund_symbol, :year],
     :m = nanmean(:x), 
     :s = nanstd(:x),
-    :S = sqrt(length(:year)) .* nanmean(:x) ./ nanstd(:x)
+    :sharpe = sqrt(length(:year)) .* nanmean(:x) ./ nanstd(:x),
+    :sortino = sqrt(length(:year)) .* nanmean(:x) ./ downside_std(:x)
     )
 end
-
-Δm = range(-1e-2, 5e-3; length = 200)
-δm = 1e-3
-
-plot(Δm,
-        map(x->meanse(@subset(ETF, x .<= :m).S), 
-            Δm)
-)
-
-plot(legend = :topleft)
-for category in unique(ETF.fund_category)
-    plot!(Δm,
-        map(x->mean(@subset(ETF, :fund_category .== category, x .<= :m).S), 
-            Δm), 
-        label = false, lw = 2
-    )
-end
-current()
-
-δS = 2e-1
-plot(legend = :topleft)
-for category in unique(@subset(categories, :K .>= 50).fund_category)
-    plot!(ΔS,
-        map(x->mean(@subset(ETF, 
-            :fund_category .== category, 
-            x - δS .<= :S .< x + δS).m), 
-            ΔS), 
-        label = false
-    )
-end
-current()
