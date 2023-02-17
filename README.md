@@ -1,3 +1,6 @@
+# Great year, bad Sharpe?
+## A note on the joint distribution of performance and risk-adjusted return
+
 Returns distributions are heavy-tailed across asset classes. 
 In this note, I examine the implications of this stylized fact for the joint statistics of performance and risk-adjusted return. 
 Using both synthetic and real data, I show that the Sharpe ratio does not increase monotonically with mean return: in a sample of price trajectories, the largest Sharpe ratios are associated with suboptimal performance; conversely, the best performance corresponds to Sharpe ratios near one. 
