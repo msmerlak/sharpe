@@ -18,8 +18,8 @@ aps,
     Returns distributions are heavy-tailed across asset classes. 
     In this note, I examine the implications of this stylized fact for the joint statistics of performance and risk-adjusted return. 
     Using both synthetic and real data, I show that the Sharpe ratio does not increase monotonically with performance: in a sample of price trajectories, the largest Sharpe ratios are associated with suboptimal mean returns; conversely, the best performance never corresponds to the largest Sharpe ratios. 
-    This counter-intuitive effect is due to asymptotic correlations between the sample mean and sample standard deviation of heavy-tailed variables. 
-    In addition to very large sample noise, this ``great year, bad Sharpe'' property puts into question the widespread use of the Sharpe ratio as the gold standard of investment quality. 
+    This counter-intuitive effect is due to asymptotic correlations between the sample mean and sample standard deviation of heavy-tailed variables which have no counterpart in the Gaussian world. 
+    In addition to its very large sample noise, the non-monotonic association of the Sharpe ratio with performance puts into question its status as the gold standard of investment quality. 
  \end{abstract}
 
 \maketitle 
@@ -146,7 +146,7 @@ Conversely, we find that the funds with largest Sharpe ratio are never the ones 
 The Sharpe ratio has some well-known limitations as a measure of investment quality. 
 For instance, the Sharpe does not distinguish between upside and downside risk; large tail risks can easily be concealed behind the veil of low volatility, e.g. by writing far out-of-the-money options; most importantly, as we saw, Sharpe ratios consist are largely noise, with standard errors an order of magnitude larger than their values.
 
-None of these caveats address the quality of the Sharpe ratio as a descriptor of past returns. 
+None of these caveats relate to the quality of the Sharpe ratio as a descriptor of \emph{past} returns. 
 In this note I have shown that, in constrast with the Gaussian case, a very large Sharpe ratio is not synonymous with great in-sample performance. 
 On the contrary, funds with maximal Sharpe ratios tend to have suboptimal performance. 
 
