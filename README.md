@@ -8,3 +8,7 @@ This counter-intuitive effect is due to asymptotic correlations between the samp
 Together with its large sample nois, this ``great year, bad Sharpe'' property puts into question the widespread use of Sharpe ratios as gold standard of investment quality. 
 
 ![](plots/main-plot.png)
+
+## Sources
+- Mutual funds and ETF returns: [Kaggle - Stefano Leone](https://www.kaggle.com/datasets/stefanoleone992/mutual-funds-and-etfs)
+- T-bill yields: [St Louis Fed](https://fred.stlouisfed.org/series/RIFLGFCY01NA)
