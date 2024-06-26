@@ -8,5 +8,6 @@ data/
 *.log
 *.synctex.gz
 *.fls
+*.zip
 
 
