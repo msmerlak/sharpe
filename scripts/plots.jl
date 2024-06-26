@@ -11,11 +11,11 @@ include(scriptsdir("synthetic.jl"))
 
 results = Dict(
     :normal => (
-        data=@subset(synthetic, :ν .== Inf), plots=[], m_range=(-0.005, 0.005),
+        data=@subset(synthetic, :ν .== Inf), plots=[], m_range=(-5e-3, 5e-3),
         title="A. Normal"
     ),
-    :student => (data=@subset(synthetic, :ν .< Inf), plots=[], m_range=(-0.01, 0.01),
-        title="B. Student(ν = 3)"
+    :student => (data=@subset(synthetic, :ν .< Inf), plots=[], m_range=(-1e-2, 1e-2),
+        title="B. Student(ν = 4)"
     ),
     :ETF => (data=ETF, plots=[], m_range=(-1e-2, 5e-3),
         title="C. ETFs"
@@ -31,7 +31,7 @@ for (key, case) in results
         )
     )
     key == :normal && ylabel!("Volatility " * L"s")
-    key == :student && plot!(m -> abs(m) * sqrt(T), label=L"s = \sqrt{T}\vert m\vert ", ylims=(0, 0.2))
+    # key == :student && plot!(m -> abs(m) * sqrt(T), label=L"s = \sqrt{T}\vert m\vert ", ylims=(0, 0.2))
 
     push!(case.plots,
         @df case.data histogram2d(:m, :sharpe,
@@ -69,34 +69,23 @@ savefig(plotsdir("main-plot"))
 )
 plot!(x -> pdf(Normal(μ, σ), x), label="Normal", ylims=(5e-5, 1e2), lw=2)
 plot!(x -> pdf(TDist(μ, σ, 3), x), label="Student(ν = 3)", lw=2)
-plot!(x -> pdf(TDist(μ, σ, 5), x), label="Student(ν = 5)", lw=2)
 savefig(plotsdir("returns-dist"))
+
+μ_vol_scaled = nanmean(ETF_returns.x_vol_scaled)
+σ_vol_scaled = nanstd(ETF_returns.x_vol_scaled)
+@df ETF_returns histogram(:x_vol_scaled,
+    xlims=(-10, 10), bins=500,
+    normalize=:pdf, yaxis=:log, label="ETFs",
+    xlabel="Daily log-returns (vol-scaled)",
+    ylabel="Density", lw=2
+)
+plot!(x -> pdf(Normal(μ_vol_scaled, 1), x), label="Normal", ylims=(5e-5, 1e0), lw=2)
+plot!(x -> pdf(TDist(μ_vol_scaled, 1, 4), x), label="Student(ν = 4)", lw=2)
+savefig(plotsdir("returns-vol-scaled-dist"))
 
 # Mean vol
 
 @df @by(ETF_returns, :fund_symbol, :vol = nanstd(:x)) histogram(:vol, normalize=:pdf, bins=100, label=false, xlabel="ETF daily volatility", ylabel="Density")
-
-# Vol-scaled returns
-
-ETF_returns_vol_scaled = @chain ETF_returns begin
-    @by([:fund_symbol],
-        :x_vol_scaled = :x ./ nanstd(:x),
-        :fund_category = :fund_category,
-        :year = :year
-    )
-end
-μ_vol_scaled = nanmean(ETF_returns_vol_scaled.x_vol_scaled)
-σ_vol_scaled = nanstd(ETF_returns_vol_scaled.x_vol_scaled)
-
-@df ETF_returns_vol_scaled histogram(:x_vol_scaled, bins=500, normalize=:pdf, yaxis=:log, label="ETFs",
-    xlabel="Daily log-returns (vol-scaled)",
-    ylabel="Density", lw=2
-)
-plot!(x -> pdf(Normal(μ_vol_scaled, σ_vol_scaled), x), label="Normal", ylims=(5e-6, 1e0), xlims=(-20, 20), lw=2)
-
-plot!(x -> pdf(TDist(μ_vol_scaled, σ_vol_scaled, 3), x), label="Student(ν = 3)", lw=2)
-plot!(x -> pdf(TDist(μ_vol_scaled, σ_vol_scaled, 5), x), label="Student(ν = 5)", lw=2)
-savefig(plotsdir("returns-vol-scaled-dist"))
 
 begin
     plot()
@@ -110,7 +99,6 @@ end
 @df ETF histogram(:sharpe, normalize=:pdf, label="ETFs", xlabel="Sharpe ratio " * L"S", ylabel="Density")
 @df synthetic density!(:sharpe, group=:label, lw=2)
 plot!(x -> pdf(Normal(S, ΔS), x), lw=2, ls=:dash, color=:black, label="Asymptotic theory [Lo 02]", legend=:topleft, xlims=(-8, 6))
-
 savefig(plotsdir("sharpe-dist"))
 
 # Risk free rate
@@ -144,5 +132,5 @@ end
 
 k_range = 50:10000
 plot(k_range, hills(abs.(ETF_returns.x), k_range), xlabel="Number of order statistics", ylabel="Hill estimator", label="raw daily abs(ETF returns)")
-plot!(k_range, hills(abs.(ETF_returns_vol_scaled.x_vol_scaled), k_range), xlabel="Number of order statistics", ylabel="Hill estimator", label="vol-scaled daily abs(ETF returns)")
+plot!(k_range, hills(abs.(ETF_returns.x_vol_scaled), k_range), xlabel="Number of order statistics", ylabel="Hill estimator", label="vol-scaled daily abs(ETF returns)")
 savefig(plotsdir("hill"))
