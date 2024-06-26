@@ -20,19 +20,19 @@ riskfree = riskfree = Dict(
 ETF_metadata = CSV.read(datadir("kaggle-funds/ETFs.csv"), DataFrame)
 ETF_data = CSV.read(datadir("kaggle-funds/ETF-prices.csv"), DataFrame)
 
-
 ETF_returns = @chain innerjoin(ETF_data, ETF_metadata, on=:fund_symbol) begin
     @transform(:year = Year.(:price_date))
     @by([:fund_category, :fund_symbol, :year],
-        :x = logreturns(:adj_close) .- log(1 + riskfree[first(:year)]) / length(:year),
+        :x = (logreturns(:adj_close) .- log(1 + riskfree[first(:year)]) / length(:year)), # excess log-returns
         :T = length(:adj_close),
         :year,
         :fund_category
     )
     @subset(:T .== 252)
     @subset(-Inf .< :x .< Inf)
-    #@subset(:fund_category .!== missing)
+    # @subset(:fund_category .!== missing)
 end
+ETF_returns[!, :x_vol_scaled] = @by(ETF_returns, :fund_symbol, :x_vol_scaled = :x ./ nanstd(:x)).x_vol_scaled
 
 ETF = @chain ETF_returns begin
     @by([:fund_category, :fund_symbol, :year],
