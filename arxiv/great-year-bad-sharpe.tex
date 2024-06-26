@@ -16,10 +16,10 @@ aps,
 
 \begin{abstract}
     Returns distributions are heavy-tailed across asset classes. 
-    In this note, I examine the implications of this stylized fact for the joint statistics of performance and risk-adjusted return. 
-    Using both synthetic and real data, I show that the Sharpe ratio does not increase monotonically with performance: in a sample of price trajectories with the same distribution of returns, the largest Sharpe ratios are associated with suboptimal mean returns; conversely, the best performance never corresponds to the largest Sharpe ratios. 
-    This counter-intuitive effect is unrelated to the risk-return tradeoff familiar from portfolio theory: it is a consequence of asymptotic correlations between the sample mean and sample standard deviation of heavy-tailed variables (which are absent in the Gaussian case). 
-    In addition to its very large sample noise, the non-monotonic association of the Sharpe ratio with performance puts into question its status as the gold standard of investment quality. 
+    In this note, I examine the implications of this well-known stylized fact for the joint statistics of performance (absolute return) and Sharpe ratio (risk-adjusted return). 
+    Using both synthetic and real data, I show that, all other things being equal, the investments with the best in-sample performance are never associated with the best in-sample Sharpe ratios (and vice versa). 
+    This counter-intuitive effect is unrelated to the risk-return tradeoff familiar from portfolio theory: it is, rather, a consequence of asymptotic correlations between the sample mean and sample standard deviation of heavy-tailed variables. 
+    In addition to its large sample noise, this non-monotonic association of the Sharpe ratio with performance puts into question its status as the gold standard metric of investment quality. 
  \end{abstract}
 
 \maketitle 
@@ -28,19 +28,18 @@ aps,
 
 Of two investments with comparable returns, the one with lower volatility is more desirable. 
 From this commonsense observation derives the notion of risk-adjusted returns as target for optimization. 
-This logic is formalized in Markowitz's ``modern portfolio theory'', where a portfolio is considered efficient if it maximizes the Sharpe ratio (mean return)/(volatility). 
-In practice, risk-adjusted performance measures, of which the Sharpe ratio is the most common, are routinely used to benchmark and select funds, compensate their managers, etc.
+This logic is formalized in Markowitz's ``modern portfolio theory'', wherein a portfolio is considered efficient if it maximizes the Sharpe ratio (mean return)/(volatility). 
+In practice, Sharpe ratios or similar risk-adjusted performance measures are routinely used to benchmark and select funds, compensate their managers, etc.
 
 From a statistical perspective, the Sharpe ratio is simply the coefficient of variation of excess returns. 
 Assuming returns with finite variance, its sampling distribution can be described with standard asymptotic theory \cite{loStatistics2002}. 
 However, precisely because investors are focused on maximizing their Sharpe ratio, it interesting to ask not just about the center of its sampling distribution, but also about its tails. 
 What kind of events lead to large deviations of the Sharpe ratio? 
 
-The purpose of this note is to examine the tails of the joint sampling distribution of performance (mean return) and risk-adjusted return (Sharpe ratio) of funds.
+The purpose of this note is to examine the tails of the joint sampling distribution of performance and Sharpe ratio of funds.
 A natural expectation is that the Sharpe ratio takes the largest values along prices trajectories with exceptionally large returns.
-I show that this expectation is true in a Gaussian world, but false when returns are heavy-tailed, a well-known feature of empirical returns \cite{bouchaudTheory2003}. 
-In particular, I show that, with heavy-tailed returns, the strategies with the largest Sharpe ratios never maximize long-term performance, and strategies with exceptional performance are associated with suboptimal Sharpe ratios. 
-We might call this counter-intuitive phenomenon the ``great returns, bad Sharpe'' effect. 
+I show that this expectation would be true in a Gaussian world, but is false when returns are heavy-tailed \cite{bouchaudTheory2003}. 
+In particular, I show that, with heavy-tailed returns, the strategies with the largest Sharpe ratios never maximize long-term performance, and strategies with exceptional performance are always associated with suboptimal Sharpe ratios. 
 
 Two cautionary remarks. 
 First, the present study is strictly about in-sample statistics: we do not consider issues of prediction or out-of-sample validity.  
@@ -51,10 +50,10 @@ Second, the relationship between performance and risk-adjusted returns discussed
 \subsection{Definitions}
 
 Let us begin with some definitions and assumptions.
-We consider an asset or strategy with price $p_t$ and log-returns at time resolution $\tau$ by $r_t = \log(p_t/p_{t-\tau})$.
-We suppose that a riskfree asset provides returns at rate $r_0$, and denote $\eta_t = r_t - \xi_0$ the excess log-return. 
+Consider an asset or strategy with price $p_t$ and log-returns at time resolution $\tau$ by $r_t = \log(p_t/p_{t-\tau})$.
+Suppose that a riskfree asset provides returns at rate $r_0$, and denote $\eta_t = r_t - \xi_0$ the excess log-return. 
 (Henceforth $\eta_t$ will be called \emph{return} for short.)
-We assume $\eta_t$ are independent and drawn from a common distribution $\mathcal{D}$ with mean $\mu$ and standard deviation $\sigma$. 
+Assume furthermore that $\eta_t$ are independent and drawn from a common distribution $\mathcal{D}$ with mean $\mu$ and standard deviation $\sigma$. 
 
 \begin{figure}[t!]
     \includegraphics[width = .45\textwidth]{sharpe-dist.png}
@@ -73,7 +72,7 @@ Given its performance $m$ and volatility $s$, the \emph{Sharpe ratio} of the str
 \end{equation}
 This ratio is approximately invariant with respect to $T$, and can be interpreted as a signal-to-noise ratio (signal $=mT$, noise $=s\sqrt{T}$). When $T$ is large ($T = 252$ for daily returns), the sampling distribution of $S$ is asymptotically Gaussian, with standard error $\Delta S = (1+S^2/2)^{1/2}$ \cite{loStatistics2002} (see Fig. \ref{sharpe-dist}).
 
-Strictly related measures of risk-adjusted return include the information ratio (where the reference rate $r_0$ is the market rate), the Sortino ratio (where $s$ is replaced by the downside risk), and the Treynor ratio (where $s$ is replaced by $\beta$). These give similar results and we do not discuss them here.  
+Related measures of risk-adjusted return include the information ratio (where the reference rate $r_0$ is the market rate), the Sortino ratio (where $s$ is replaced by the downside risk), and the Treynor ratio (where $s$ is replaced by $\beta$). These give similar results and we do not discuss them here.  
 
 
 \begin{figure}[t!]
@@ -89,19 +88,17 @@ We consider daily returns data of two kinds. First, we generate synthetic return
     \eta \sim \mu + \sigma\sqrt{(\nu - 2)/\nu}\, \xi,
 \end{equation}
 where $\xi$ follows a Student $t$ distribution with $\nu$ degrees of freedom. (The associated probability density function reads has tail behavior $p(\eta; \nu)\sim_{\eta\to\pm\infty} 1/\vert\eta\vert^{\nu + 1)}$.) 
-Empirically, the tail index of daily returns is found to be $\nu\simeq 3$ (see Ref. \cite{bouchaudTheory2003} and references therein); in the limit $\nu\to\infty$ a Gaussian distribution is recovered. 
+Empirically, the tail index of daily returns is found to be $\nu\simeq 4$ (see Ref. \cite{bouchaudTheory2003} and references therein); in the limit $\nu\to\infty$ a Gaussian distribution is recovered. 
 
 We also consider a public dataset of the adjusted close price of exchange traded funds (ETFs) spanning the period 1995-2019 and multiple categories (equities, commodities, short-term bonds, etc.) \cite{leoneUS}. 
 To compute excess returns we use as riskfree rate $r_0$ the market yield on 1-year T-bills (the RIFLGFCY01NA ticker from FRED), plotted in Fig. \ref{riskfree-rate}. 
 
-The agregate distribution of daily returns of these ETFs is shown in Fig. \ref{returns-dist}, together with the density of a Student distribution with $\nu =3$ and a Gaussian distribution with the same mean $\mu$ and standard deviation $\sigma$. 
+The agregate distribution of daily returns of these ETFs (normalized by their long-term volatility $\sigma$) is shown in Fig. \ref{returns-dist}, together with the density of a Student distribution with $\nu =4$ and a Gaussian distribution with the same mean and standard deviation. 
 As expected, the Student distribution fits ETF returns well, while the Gaussian clearly does not. 
 
-In the following, we fix $\mu = 1.45\cdot 10^{-4}$, $\sigma = 1.73\cdot 10^{-2}$, corresponding to the empirical mean and standard deviation of daily ETF returns. 
-
 \begin{figure}[t!]
-    \includegraphics[width = .45\textwidth]{returns-dist.png}
-    \caption{Distribution of daily excess returns $\eta_t$ for $1,608$ ETFs, together with Student and Gaussian densities with the same mean $\mu = 1.45\cdot 10^{-4}$ and standard deviation $\sigma = 1.73\cdot 10^{-2}$.}
+    \includegraphics[width = .45\textwidth]{returns-vol-scaled-dist.png}
+    \caption{Distribution of daily excess returns (normalized by their average volatility) $\eta_t$ for $1,608$ ETFs, together with Student and Gaussian densities with the same mean and standard deviation.}
     \label{returns-dist}
 \end{figure}
 
